@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:component-scan
+		base-package="com.javawiz.data.spring.template" />
+	<context:property-placeholder location="data/database.properties"/>
+	
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="poolName" value="springHikariCP" />
+		<property name="dataSourceClassName" value="${dataSourceClassName}" />
+		<property name="maximumPoolSize" value="${hikari.maximumPoolSize}" />
+		<property name="idleTimeout" value="${hikari.idleTimeout}" />
+
+		<property name="dataSourceProperties">
+			<props>
+				<prop key="url">${dataSource.url}</prop>
+				<prop key="user">${dataSource.username}</prop>
+				<prop key="password">${dataSource.password}</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
+		destroy-method="close">
+		<constructor-arg ref="hikariConfig" />
+	</bean>
+	
+	<bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">  
+		<constructor-arg ref="dataSource"/>  
+	</bean>  
+</beans>

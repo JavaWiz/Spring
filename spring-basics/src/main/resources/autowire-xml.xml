@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd" default-autowire="byName"
+	   default-autowire-candidates="*">
+	
+	<bean id="customerDao" class="com.javawiz.basic.autowire.CustomerDao"/>
+	
+	<!-- auto wiring byName, bean name should be same as the property name -->
+	<bean id="customerServiceByName" class="com.javawiz.basic.autowire.CustomerService" autowire="byName" autowire-candidate="false"/>
+	<!-- auto wiring byType, there should be only one bean definition for the mapping -->
+	<bean id="customerServiceByType" class="com.javawiz.basic.autowire.CustomerService" autowire="byType"/>
+	<!-- auto wiring by constructor -->
+	<bean id="customerServiceByConstructor" class="com.javawiz.basic.autowire.CustomerService" autowire="constructor"/>
+</beans>
